@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
 from app.schemas.user import UserCreate
+from app.utils.dependencies import get_current_user
 from app.utils.security import hash_password
 from fastapi import HTTPException
 from app.schemas.user import UserCreate, UserLogin
@@ -82,3 +83,10 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     "access_token": token,
     "token_type": "bearer"
     } 
+
+@router.get("/me")
+def get_me(current_user=Depends(get_current_user)):
+    return {
+        "message": "Protected route accessed",
+        "user": current_user
+    }
