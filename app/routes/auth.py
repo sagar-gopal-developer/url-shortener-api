@@ -87,6 +87,7 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
 @router.get("/me")
 def get_me(current_user=Depends(get_current_user)):
     return {
-        "id": current_user.id,
+        "message": "Protected route accessed",
+        "user_id": current_user.id,
         "email": current_user.email
     }
